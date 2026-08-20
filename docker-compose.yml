@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./laravel
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./laravel:/var/www/html
+      - laravel-vendor:/var/www/html/vendor
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/database.sqlite
+
+  frontend:
+    build:
+      context: ./react
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./react:/app
+      - react-node-modules:/app/node_modules
+    environment:
+      VITE_API_URL: http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  laravel-vendor:
+  react-node-modules:
