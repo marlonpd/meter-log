@@ -11,6 +11,15 @@ meter-log/
 
 ---
 
+## Why it's built this way
+
+- **Consumption is computed, not stored.** It's derived from the previous reading every time the API responds, so editing or deleting a reading never leaves a stale number behind.
+- **Validation enforces the domain rule, not just data shape.** A reading can't be lower than the one before it or higher than the one after — meters only count up.
+- **One reading per date.** Consumption only makes sense between two different dates, so `reading_date` is unique.
+- **Docker Compose over local installs.** Anyone can run the whole stack with one command, without installing PHP, Composer, or Node.
+
+---
+
 ## Quick start (Docker — recommended)
 
 **Prerequisites:** Docker Desktop (or Docker Engine + Compose v2).
